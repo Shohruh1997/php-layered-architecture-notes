@@ -1,14 +1,18 @@
-# Слоистая архитектура в PHP: границы, которые реально держат
+<div align="center">
 
-Как устроен бэкенд складской CRM: четыре слоя, правила зависимостей между ними и
-что именно ломается, когда правила нарушают.
+# 🏛️ Слоистая архитектура в PHP
 
-Разбор на реальной структуре продакшен-системы. Исходники приватные, доступ по
-запросу.
+**Domain · Application · Infrastructure · Interfaces** — границы, которые держат
+
+[![PHP](https://img.shields.io/badge/PHP-8.3-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+![Доменов](https://img.shields.io/badge/доменов-11-8b5cf6?style=flat-square)
+![Правило](https://img.shields.io/badge/зависимости-только_внутрь-22c55e?style=flat-square)
+
+</div>
 
 ---
 
-## Структура
+## 🗂️ Структура
 
 ```
 src/
@@ -31,8 +35,8 @@ flowchart TD
     INF[Infrastructure<br/>MySQL, Payme, Click] -.реализует.-> D
     A -.получает через DI.-> INF
 
-    style D fill:#eef4ff,stroke:#6366f1,stroke-width:3px
-    style INF fill:#fff4e6,stroke:#f59e0b
+    style D fill:#6366f1,stroke:#4338ca,stroke-width:3px,color:#ffffff
+    style INF fill:#f59e0b,stroke:#b45309,color:#1a1a1a
 ```
 
 **Единственное правило, из которого следует всё остальное:** стрелки ведут внутрь.
@@ -41,7 +45,7 @@ flowchart TD
 
 ---
 
-## Зачем это, если можно писать в контроллере
+## ❓ Зачем это, если можно писать в контроллере
 
 Пока система маленькая, разницы нет. Она появляется в трёх местах.
 
@@ -58,7 +62,7 @@ callback. Если шлюз за интерфейсом — правка в од
 
 ---
 
-## Контракт в домене, реализация в инфраструктуре
+## 🔌 Контракт в домене, реализация в инфраструктуре
 
 Классический пример — платёжный шлюз. Интерфейс лежит в `Domain/Payment`:
 
@@ -83,7 +87,7 @@ interface PaymentGateway
 
 ---
 
-## Сценарий как единица работы
+## ⚙️ Сценарий как единица работы
 
 `Application` — это то, что происходит, а не то, как оно хранится. Один сценарий —
 одна транзакция, одна ответственность.
@@ -122,7 +126,7 @@ final class PostInventoryDocument
 
 ---
 
-## Legacy как отдельный слой, а не как «потом перепишем»
+## 🧱 Legacy как отдельный слой, а не как «потом перепишем»
 
 `src/Legacy` — сознательное решение. Старый код не удалён и не переписан разом, он
 **огорожен**: новый код в него не заглядывает, а старые вызовы постепенно
@@ -135,7 +139,7 @@ final class PostInventoryDocument
 
 ---
 
-## Где границу нарушают чаще всего
+## ⚠️ Где границу нарушают чаще всего
 
 Три типичных протечки, за которыми стоит следить:
 
@@ -148,7 +152,7 @@ final class PostInventoryDocument
 
 ---
 
-## Автозагрузка: ловушка регистра, стоившая продакшена
+## 💥 Автозагрузка: ловушка регистра, стоившая продакшена
 
 Реальная история из соседнего проекта, прямо про границы и дисциплину.
 
@@ -169,7 +173,7 @@ final class PostInventoryDocument
 
 ---
 
-## Что спрашивать у кандидата по этой теме
+## 🎤 Что спрашивать у кандидата по этой теме
 
 Если вы читаете это как нанимающий — вот вопросы, которые отличают понимание от
 пересказа:
@@ -181,7 +185,7 @@ final class PostInventoryDocument
 
 ---
 
-## Смежные заметки
+## 🔗 Смежные заметки
 
 - [db-schema-notes](https://github.com/Shohruh1997/db-schema-notes) — схемы БД этих же систем
 - [inventory-accounting-notes](https://github.com/Shohruh1997/inventory-accounting-notes) — доменная логика склада
@@ -189,4 +193,13 @@ final class PostInventoryDocument
 
 ---
 
-Шохрух Рузиев · backend-разработчик, Ташкент · [ecomdev.uz](https://ecomdev.uz)
+<div align="center">
+
+**Шохрух Рузиев** · backend-разработчик, Ташкент
+
+[![Сайт](https://img.shields.io/badge/ecomdev.uz-6366f1?style=for-the-badge&logo=googlechrome&logoColor=white)](https://ecomdev.uz)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/EcomDev_uz)
+
+Исходный код систем — в приватных репозиториях, доступ по запросу.
+
+</div>
